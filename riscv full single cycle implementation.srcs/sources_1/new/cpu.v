@@ -63,7 +63,7 @@ module cpu (
 
     // Control unit
     control_unit cu(
-        .opcode(instruction[6:2]),
+        .opcode(instruction[`IR_opcode]),
         .branch(branch),
         .mem_read(mem_read),
         .mem_write(mem_write),
@@ -76,7 +76,7 @@ module cpu (
     // ALU control unit
     alu_control_unit acu(
         .alu_op(alu_op),
-        .funct3(instruction[14:12]),
+        .funct3(instruction[`IR_funct3]),
         .funct7(instruction[30]),
         .alu_control(alu_sel)
     );
@@ -97,9 +97,9 @@ module cpu (
     register_file #(.DATA_WIDTH(32), .ADDR_WIDTH(5)) rf(
         .clk(clk),
         .rst(reset),
-        .read_reg_1(instruction[19:15]),
-        .read_reg_2(instruction[24:20]),
-        .write_reg(instruction[11:7]),
+        .read_reg_1(instruction[`IR_rs1]),
+        .read_reg_2(instruction[`IR_rs2]),
+        .write_reg(instruction[`IR_rd]),
         .write_data(write_data),
         .reg_write(reg_write),
         .read_data_1(read_data_1),

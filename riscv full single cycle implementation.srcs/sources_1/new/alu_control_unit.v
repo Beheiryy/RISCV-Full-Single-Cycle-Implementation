@@ -33,7 +33,7 @@ module alu_control_unit (
         `ALUOP_RTYPE: begin
             case (funct3)
                 3'b000: begin
-                    if (funct7[5]) alu_control = `ALU_SUB; // SUB
+                    if (funct7) alu_control = `ALU_SUB; // SUB
                     else alu_control = `ALU_ADD; // ADD
                 end
 
@@ -44,7 +44,7 @@ module alu_control_unit (
                 3'b001: alu_control = `ALU_SLL;
 
                 3'b101: begin
-                    if (funct7[5]) alu_control = `ALU_SRA; // SRA
+                    if (funct7) alu_control = `ALU_SRA; // SRA
                     else alu_control = `ALU_SRL; // SRL
                 end
 
