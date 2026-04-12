@@ -78,6 +78,7 @@ module cpu (
         .alu_op(alu_op),
         .funct3(instruction[`IR_funct3]),
         .funct7(instruction[30]),
+        .is_sub(instruction[5]),
         .alu_control(alu_sel)
     );
 

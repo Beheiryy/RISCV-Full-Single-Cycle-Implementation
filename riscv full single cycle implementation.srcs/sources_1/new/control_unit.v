@@ -26,14 +26,14 @@ module control_unit (
     assign branch = opcode[4];
 
     // mem_read/mem_to_reg: Derived from opcode bit 3
-    assign mem_read = ~(opcode[3]);
-    assign mem_to_reg = ~(opcode[3]);
+    assign mem_read = (opcode == 5'b00000);
+    assign mem_to_reg = (opcode == 5'b00000);
 
     // mem_write: Active for Store instructions (e.g., 5'b01000)
     assign mem_write = (opcode == `OPCODE_STORE);
 
     // alu_src: High for I-type and Loads/Stores
-    assign alu_src = (opcode == `OPCODE_STORE) || (opcode == `OPCODE_LOAD);
+    assign alu_src = (opcode == `OPCODE_STORE) || (opcode == `OPCODE_LOAD) || (opcode == `OPCODE_ARITH_I);
 
     // reg_write: High if the instruction writes back to the register file
     assign reg_write = (opcode[3:2] != 2'b10);

@@ -35,7 +35,7 @@ module register_file #(
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             for (i = 0; i < DATA_WIDTH; i = i + 1) begin
-                rf[i] <= 0;
+                rf[i] <= i;
             end
         end
         else begin

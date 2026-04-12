@@ -13,7 +13,7 @@
 module alu_control_unit (
     input [1:0] alu_op,
     input [2:0] funct3,
-    input funct7,
+    input funct7, is_sub,
     output reg [3:0] alu_control
 );
 
@@ -33,7 +33,7 @@ module alu_control_unit (
         `ALUOP_RTYPE: begin
             case (funct3)
                 3'b000: begin
-                    if (funct7) alu_control = `ALU_SUB; // SUB
+                    if (funct7 && is_sub) alu_control = `ALU_SUB; // SUB
                     else alu_control = `ALU_ADD; // ADD
                 end
 
