@@ -17,48 +17,48 @@ module alu_control_unit (
     output reg [3:0] alu_control
 );
 
-    // Combinational logic for ALU control signal generation
     always @(*) begin
-        // Default assignment to avoid latches
-        alu_control = `ALU_ADD; 
+    // Default assignment
+    alu_control = `ALU_ADD; 
 
-        case (alu_op)
-            `ALUOP_LOAD_STORE: begin
-                alu_control = `ALU_ADD;
-            end
+    case (alu_op)
+        `ALUOP_LOAD_STORE: begin
+            alu_control = `ALU_ADD;
+        end
 
-            `ALUOP_BRANCH: begin
-                alu_control = `ALU_SUB;
-            end
+        `ALUOP_BRANCH: begin
+            alu_control = `ALU_SUB;
+        end
 
-            `ALUOP_RTYPE: begin
-                case (funct7)
-                    1'b1: begin
-                        alu_control = `ALU_SUB;
-                    end
-                    
-                    1'b0: begin
-                        if (funct3 == 3'b000) begin
-                            alu_control = `ALU_ADD;
-                        end
-                        else if (funct3 == 3'b111) begin
-                            alu_control = `ALU_AND;
-                        end
-                        else begin
-                            alu_control = `ALU_OR;
-                        end
-                    end
+        `ALUOP_RTYPE: begin
+            case (funct3)
+                3'b000: begin
+                    if (funct7[5]) alu_control = `ALU_SUB; // SUB
+                    else alu_control = `ALU_ADD; // ADD
+                end
 
-                    default: begin
-                        alu_control = `ALU_ADD;
-                    end
-                endcase
-            end
+                3'b111: alu_control = `ALU_AND;
+                3'b110: alu_control = `ALU_OR;
+                3'b100: alu_control = `ALU_XOR;
 
-            default: begin
-                alu_control = `ALU_ADD;
-            end
-        endcase
-    end
+                3'b001: alu_control = `ALU_SLL;
+
+                3'b101: begin
+                    if (funct7[5]) alu_control = `ALU_SRA; // SRA
+                    else alu_control = `ALU_SRL; // SRL
+                end
+
+                3'b010: alu_control = `ALU_SLT;
+                3'b011: alu_control = `ALU_SLTU;
+
+                default: alu_control = `ALU_ADD;
+            endcase
+        end
+
+        default: begin
+            alu_control = `ALU_ADD;
+        end
+    endcase
+end
 
 endmodule

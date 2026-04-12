@@ -22,7 +22,6 @@ module control_unit (
     output [1:0] alu_op
 );
 
-    // Using continuous assignments for combinational logic
     // branch: Active if opcode bit 4 is set
     assign branch = opcode[4];
 

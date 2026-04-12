@@ -26,7 +26,7 @@ module data_memory (
     // Data
     input wire [31:0] write_data,
     output wire [31:0] read_data
-);
+); 
 
     // Data RAM (64 x 32-bit)
     reg [31:0] data [0:63];
