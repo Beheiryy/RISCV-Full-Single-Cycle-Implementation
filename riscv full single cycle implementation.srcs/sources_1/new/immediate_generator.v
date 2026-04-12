@@ -25,7 +25,7 @@ always @(*) begin
 		`OPCODE_AUIPC     :     immediate = { instruction[31], instruction[30:20], instruction[19:12], 12'b0 };
 		`OPCODE_JAL       : 	immediate = { {12{instruction[31]}}, instruction[19:12], instruction[20], instruction[30:25], instruction[24:21], 1'b0 };
 		`OPCODE_JALR      : 	immediate = { {21{instruction[31]}}, instruction[30:25], instruction[24:21], instruction[20] };
-		`OPCODE_BRANCH    : 	immediate = { {20{instruction[31]}}, instruction[7], instruction[30:25], instruction[11:8], 1'b0};
+		`OPCODE_BRANCH    : 	immediate = { {21{instruction[31]}}, instruction[7], instruction[30:25], instruction[11:8]};
 		default           : 	immediate = { {21{instruction[31]}}, instruction[30:25], instruction[24:21], instruction[20] }; // immediate_I
 	endcase 
 end
