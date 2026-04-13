@@ -1,24 +1,15 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 04/13/2026 11:22:54 AM
-// Design Name: 
-// Module Name: branching_unit
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*******************************************************************
+ * 
+ * Module: branching unit.v
+ * Project: RISC-V Full Single Cycle Implementation
+ * Author: Ahmed Saad Mohammed
+ * Description: Branching unit
+ * 
+ *
+ * 
+ *******************************************************************/
 
+`timescale 1ns / 1ps
 
 `include "rv32i_defs.v"
 module branching_unit(
