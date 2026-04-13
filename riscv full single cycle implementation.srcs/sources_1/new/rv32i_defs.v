@@ -26,8 +26,8 @@
 `define     OPCODE_LUI      5'b01_101
 `define     OPCODE_SYSTEM   5'b11_100 
 `define     OPCODE_Custom   5'b10_001
-`define     OPCODE_FENCE    5'b00_111
-`define     OPCODE_BREAK    5'b11_100
+`define     OPCODE_FENCE    5'b000_11
+`define     OPCODE_BREAK    5'b111_00
 
 // ALUOp types
 `define ALUOP_LOAD_STORE 2'b00
