@@ -22,15 +22,15 @@ module alu_control_unit (
     alu_control = `ALU_ADD; 
 
     case (alu_op)
-        `ALUOP_LOAD_STORE: begin
+        `ALUOP_ADD: begin
             alu_control = `ALU_ADD;
         end
 
         `ALUOP_BRANCH: begin
             alu_control = `ALU_SUB;
         end
-
-        `ALUOP_RTYPE: begin
+        
+        `ALUOP_ARITHMATIC: begin
             case (funct3)
                 3'b000: begin
                     if (funct7 && is_sub) alu_control = `ALU_SUB; // SUB

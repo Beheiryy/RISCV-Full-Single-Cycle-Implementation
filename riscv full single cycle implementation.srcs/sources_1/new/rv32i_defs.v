@@ -30,9 +30,9 @@
 `define     OPCODE_BREAK    5'b111_00
 
 // ALUOp types
-`define ALUOP_LOAD_STORE 2'b00
-`define ALUOP_BRANCH     2'b01
-`define ALUOP_RTYPE      2'b10
+`define ALUOP_ADD             2'b00
+`define ALUOP_BRANCH          2'b01
+`define ALUOP_ARITHMATIC      2'b10
 
 // ALU Control signals
 `define ALU_ADD 4'b0000

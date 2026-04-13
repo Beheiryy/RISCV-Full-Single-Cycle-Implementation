@@ -40,25 +40,29 @@ module cpu (
     wire branch;
     wire branch_take;
     wire mem_read;
-    wire mem_to_reg;
     wire mem_write;
-    wire alu_src;
+    wire alu_src_1;
+    wire alu_src_2;
     wire reg_write;
+    wire jump;
     wire zf, cf, nf, of;
     wire [1:0] alu_op;
+    wire [1:0] reg_write_src;
     wire [3:0] alu_sel;
     
-    wire exitProgramSignal;
+    wire exit_program;
 
     // PC calculation
     assign pc_plus4 = pc + `PC_INCREMENT;
-    assign branch_target = pc + sl_output;
-    assign pc_in = reset ? `ZERO_32_BIT :
-                   (exitProgramSignal == 1'b1) ? pc :  
-    ((branch & branch_take) ? branch_target : pc_plus4);
+    assign branch_target = pc + sl_output; 
+    assign pc_in = (exit_program) ? pc : 
+                   (jump) ? alu_output : 
+                   (branch & branch_take) ? branch_target : pc_plus4;
 
     // Write data mux
-    assign write_data = mem_to_reg ? dmem_output : alu_output;
+    assign write_data = (reg_write_src == 2'b00) ? dmem_output :
+                        (reg_write_src == 2'b01) ? immediate_output :
+                        (reg_write_src == 2'b10) ? pc_plus4 : alu_output;
 
     // Instruction memory
     instruction_memory imem(
@@ -69,14 +73,16 @@ module cpu (
     // Control unit
     control_unit cu(
         .opcode(instruction[`IR_opcode]),
-        .exitProgramSignal(exitProgramSignal),
+        .exit_program(exit_program),
         .branch(branch),
         .mem_read(mem_read),
         .mem_write(mem_write),
-        .mem_to_reg(mem_to_reg),
-        .alu_src(alu_src),
+        .alu_src_1(alu_src_1),
+        .alu_src_2(alu_src_2),
         .reg_write(reg_write),
-        .alu_op(alu_op)
+        .jump(jump),
+        .alu_op(alu_op),
+        .reg_write_src(reg_write_src) 
     );
 
     // ALU control unit
@@ -115,8 +121,8 @@ module cpu (
 
     // ALU
     alu #(.DATA_WIDTH(32)) alu (
-        .a(read_data_1),
-        .b(alu_src ? immediate_output : read_data_2),
+        .a(alu_src_1 ? pc : read_data_1),
+        .b(alu_src_2 ? immediate_output : read_data_2),
         .selection(alu_sel),
         .c(alu_output),
         .zf(zf),
@@ -126,7 +132,7 @@ module cpu (
     );
     
     // Branching Unit
-    branching_unit #(.DATA_WIDTH(32)) bu (
+    branching_unit bu (
         .funct3(instruction[`IR_funct3]),
         .zf(zf), .cf(cf), .nf(nf), .of(of),
         .branch_take(branch_take)

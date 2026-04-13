@@ -21,7 +21,7 @@
 
 
 `include "rv32i_defs.v"
-module branching_unit #(DATA_WIDTH = 32)(
+module branching_unit(
     input [2:0] funct3,
     input zf, nf, cf, of,
     output reg branch_take
@@ -29,7 +29,6 @@ module branching_unit #(DATA_WIDTH = 32)(
     
     always @(*) begin
     branch_take = 1'b0;
-
         case(funct3)
             `F3_BEQ:  branch_take = zf;
             `F3_BNE:  branch_take = ~zf;
