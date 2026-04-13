@@ -46,11 +46,15 @@ module cpu (
     wire zf;
     wire [1:0] alu_op;
     wire [3:0] alu_sel;
+    
+    wire exitProgramSignal;
 
     // PC calculation
     assign pc_plus4 = pc + `PC_INCREMENT;
     assign branch_target = pc + sl_output;
-    assign pc_in = reset ? `ZERO_32_BIT : ((branch & zf) ? branch_target : pc_plus4);
+    assign pc_in = reset ? `ZERO_32_BIT :
+                   (exitProgramSignal == 1'b1) ? pc :  
+    ((branch & zf) ? branch_target : pc_plus4);
 
     // Write data mux
     assign write_data = mem_to_reg ? dmem_output : alu_output;
@@ -64,6 +68,7 @@ module cpu (
     // Control unit
     control_unit cu(
         .opcode(instruction[`IR_opcode]),
+        .exitProgramSignal(exitProgramSignal),
         .branch(branch),
         .mem_read(mem_read),
         .mem_write(mem_write),

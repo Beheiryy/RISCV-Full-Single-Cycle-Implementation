@@ -14,10 +14,6 @@
 `define     IR_funct7       31:25
 `define     IR_shamt        24:20
 
-// Immediate Generator
-`define DISCRIMINANT_I_TYPE 2'b00
-`define DISCRIMINANT_S_TYPE 2'b01
-
 // Opcode
 `define     OPCODE_BRANCH   5'b11_000
 `define     OPCODE_LOAD     5'b00_000
@@ -30,6 +26,8 @@
 `define     OPCODE_LUI      5'b01_101
 `define     OPCODE_SYSTEM   5'b11_100 
 `define     OPCODE_Custom   5'b10_001
+`define     OPCODE_FENCE    5'b00_111
+`define     OPCODE_BREAK    5'b11_100
 
 // ALUOp types
 `define ALUOP_LOAD_STORE 2'b00
@@ -57,6 +55,11 @@
 `define     F3_SRL          3'b101
 `define     F3_OR           3'b110
 `define     F3_AND          3'b111
-
+`define     F3_BEQ          3'b000
+`define     F3_BNE          3'b001
+`define     F3_BLT          3'b100
+`define     F3_BGE          3'b101
+`define     F3_BLTU         3'b110
+`define     F3_BGEU         3'b111
 
 
