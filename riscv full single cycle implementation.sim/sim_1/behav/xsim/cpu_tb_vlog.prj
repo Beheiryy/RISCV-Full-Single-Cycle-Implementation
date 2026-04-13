@@ -2,6 +2,7 @@
 verilog xil_defaultlib  \
 "../../../../riscv full single cycle implementation.srcs/sources_1/new/alu.v" \
 "../../../../riscv full single cycle implementation.srcs/sources_1/new/alu_control_unit.v" \
+"../../../../riscv full single cycle implementation.srcs/sources_1/new/branching_unit.v" \
 "../../../../riscv full single cycle implementation.srcs/sources_1/new/control_unit.v" \
 "../../../../riscv full single cycle implementation.srcs/sources_1/new/cpu.v" \
 "../../../../riscv full single cycle implementation.srcs/sources_1/new/data_memory.v" \

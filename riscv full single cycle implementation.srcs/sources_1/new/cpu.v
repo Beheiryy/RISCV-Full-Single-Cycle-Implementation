@@ -38,12 +38,13 @@ module cpu (
     
     // Control signals
     wire branch;
+    wire branch_take;
     wire mem_read;
     wire mem_to_reg;
     wire mem_write;
     wire alu_src;
     wire reg_write;
-    wire zf;
+    wire zf, cf, nf, of;
     wire [1:0] alu_op;
     wire [3:0] alu_sel;
     
@@ -54,7 +55,7 @@ module cpu (
     assign branch_target = pc + sl_output;
     assign pc_in = reset ? `ZERO_32_BIT :
                    (exitProgramSignal == 1'b1) ? pc :  
-    ((branch & zf) ? branch_target : pc_plus4);
+    ((branch & branch_take) ? branch_target : pc_plus4);
 
     // Write data mux
     assign write_data = mem_to_reg ? dmem_output : alu_output;
@@ -118,7 +119,17 @@ module cpu (
         .b(alu_src ? immediate_output : read_data_2),
         .selection(alu_sel),
         .c(alu_output),
-        .zf(zf)
+        .zf(zf),
+        .cf(cf),
+        .nf(nf),
+        .of(of)
+    );
+    
+    // Branching Unit
+    branching_unit #(.DATA_WIDTH(32)) bu (
+        .funct3(instruction[`IR_funct3]),
+        .zf(zf), .cf(cf), .nf(nf), .of(of),
+        .branch_take(branch_take)
     );
 
     // Data memory

@@ -65,7 +65,7 @@ module alu #(
 
             `ALU_SUB: begin
                 c = sub_result;
-                carry_flag = sub_ext[DATA_WIDTH]; // borrow handling
+                carry_flag = ~sub_ext[DATA_WIDTH]; // borrow handling
 
                 // Signed overflow: different sign inputs, result sign differs from a
                 overflow_flag = (~a[DATA_WIDTH-1] &  b[DATA_WIDTH-1] & c[DATA_WIDTH-1]) |
