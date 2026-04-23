@@ -6,18 +6,25 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/el_bald/riscv full single cycle implementation/riscv full single cycle implementation.srcs/sources_1/new/alu_control_unit.v" Line 13. Module alu_control_unit doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/el_bald/riscv full single cycle implementation/riscv full single cycle implementation.srcs/sources_1/new/alu.v" Line 14. Module alu doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/el_bald/riscv full single cycle implementation/riscv full single cycle implementation.srcs/sources_1/new/alu_control_unit.v" Line 13. Module alu_control_unit doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/el_bald/riscv full single cycle implementation/riscv full single cycle implementation.srcs/sources_1/new/alu.v" Line 14. Module alu doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/el_bald/rv32i pipelined/riscv full single cycle implementation.srcs/sources_1/new/alu_control_unit.v" Line 13. Module alu_control_unit doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/el_bald/rv32i pipelined/riscv full single cycle implementation.srcs/sources_1/new/alu.v" Line 14. Module alu doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/el_bald/rv32i pipelined/riscv full single cycle implementation.srcs/sources_1/new/alu_control_unit.v" Line 13. Module alu_control_unit doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/el_bald/rv32i pipelined/riscv full single cycle implementation.srcs/sources_1/new/alu.v" Line 14. Module alu doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.instruction_memory
+Compiling module xil_defaultlib.mux
+Compiling module xil_defaultlib.dff
+Compiling module xil_defaultlib.register_default
+Compiling module xil_defaultlib.register(n=64)
 Compiling module xil_defaultlib.control_unit
-Compiling module xil_defaultlib.alu_control_unit
 Compiling module xil_defaultlib.immediate_generator
 Compiling module xil_defaultlib.left_shifter
 Compiling module xil_defaultlib.register_file
+Compiling module xil_defaultlib.register(n=1)
+Compiling module xil_defaultlib.register(n=2)
+Compiling module xil_defaultlib.register(n=5)
+Compiling module xil_defaultlib.forwarding_unit
+Compiling module xil_defaultlib.alu_control_unit
 Compiling module xil_defaultlib.alu
 Compiling module xil_defaultlib.branching_unit
 Compiling module xil_defaultlib.data_memory

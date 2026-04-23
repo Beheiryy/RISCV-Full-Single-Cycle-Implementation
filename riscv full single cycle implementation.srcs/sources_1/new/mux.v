@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 04/12/2026 11:18:20 AM
+// Create Date: 04/23/2026 05:14:03 PM
 // Design Name: 
-// Module Name: cpu_tb
+// Module Name: mux
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,20 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module cpu_tb();
-    reg clk, reset;
-    
-    cpu cpu(.clk(clk), .reset(reset));
-    
-    initial begin
-        clk = 0;
-        reset = 1;
-        forever #200 clk = ~clk;
-    end
-    
-    initial begin
-        #5
-        reset = 0;
-    end
-   
+module mux(
+    input a, input b, input s, output c
+    );
+    assign c = (s ? b : a);
 endmodule

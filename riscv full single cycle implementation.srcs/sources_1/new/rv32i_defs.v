@@ -5,6 +5,8 @@
 // PC
 `define PC_INCREMENT 32'd4
 
+`define NOP 32'h00000013
+
 // Ranges
 `define     IR_rs1          19:15
 `define     IR_rs2          24:20
