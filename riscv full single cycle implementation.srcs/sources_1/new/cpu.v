@@ -131,9 +131,13 @@ module cpu (
     wire ID_EX_alu_src_2;
     wire ID_EX_reg_write;
     wire ID_EX_jump;
+    wire ID_EX_signed_ex;
+    wire [1:0] ID_EX_size_addressing;
     wire [1:0] ID_EX_alu_op;
     wire [1:0] ID_EX_reg_write_src;
     wire [4:0] ID_EX_rs1, ID_EX_rs2;
+    
+
 
     register #(.n(32)) ID_EX_pc_rg (
         .clk(clk), .reset(reset), .load(1'b1),
@@ -218,6 +222,19 @@ module cpu (
         .data(EX_MEM_flush ? 1'b0 : jump),
         .out(ID_EX_jump)
     );
+    
+     register #(.n(1)) ID_EX_signed_ex_rg (
+        .clk(clk), .reset(reset), .load(1'b1),
+        .data(signed_ex),
+        .out(ID_EX_signed_ex)
+    );
+    
+     register #(.n(2)) ID_EX_size_addressing_rg (
+        .clk(clk), .reset(reset), .load(1'b1),
+        .data(size_addressing),
+        .out(ID_EX_size_addressing)
+    );
+    
 
     register #(.n(2)) ID_EX_alu_op_rg (
         .clk(clk), .reset(reset), .load(1'b1),
@@ -316,7 +333,9 @@ module cpu (
     wire EX_MEM_mem_write;
     wire EX_MEM_reg_write;
     wire EX_MEM_jump;
+    wire EX_MEM_signed_ex;
     wire EX_MEM_flush;
+    wire [1:0] EX_MEM_size_addressing;
     wire [1:0] EX_MEM_reg_write_src;
 
     register #(.n(32)) EX_MEM_pc_plus4_rg (
@@ -397,6 +416,18 @@ module cpu (
         .out(EX_MEM_jump)
     );
 
+    register #(.n(1)) EX_MEM_signed_ex_rg (
+        .clk(~clk), .reset(reset), .load(1'b1),
+        .data(ID_EX_signed_ex),
+        .out(EX_MEM_signed_ex)
+    );
+    
+    register #(.n(2)) EX_MEM_size_addressing_rg (
+        .clk(~clk), .reset(reset), .load(1'b1),
+        .data(ID_EX_size_addressing),
+        .out(EX_MEM_size_addressing)
+    );
+
     register #(.n(2)) EX_MEM_reg_write_src_rg (
         .clk(~clk), .reset(reset), .load(1'b1),
         .data(ID_EX_reg_write_src),
@@ -413,8 +444,8 @@ module cpu (
         .clk(clk),
         .mem_read(clk | EX_MEM_mem_read),
         .mem_write((~clk) & EX_MEM_mem_write),
-        .signed_ex(signed_ex),
-        .size_addressing(size_addressing),
+        .signed_ex(EX_MEM_signed_ex),
+        .size_addressing(EX_MEM_size_addressing),
         .address(clk ? pc[7:0] : EX_MEM_alu_output[7:0]),
         .write_data(EX_MEM_read_data_2),
         .read_data(mem_output)
