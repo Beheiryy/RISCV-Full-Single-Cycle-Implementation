@@ -404,18 +404,16 @@ module cpu (
     // ============================================================
     // MEM stage
     // ============================================================
-    wire [31:0] dmem_output;
-    assign instruction = dmem_output;
+    wire [31:0] mem_output;
+    assign instruction = mem_output;
     assign EX_MEM_flush = EX_MEM_jump || (EX_MEM_branch && EX_MEM_branch_take);
-    // Change: this is still a separate data memory here.
-    // When you move to single-memory, this stage will arbitrate with IF.
-    data_memory dmem(
+    memory mem(
         .clk(clk),
         .mem_read(clk | EX_MEM_mem_read),
         .mem_write((~clk) & EX_MEM_mem_write),
         .address(clk ? pc[7:2] : EX_MEM_alu_output[7:2]),
         .write_data(EX_MEM_read_data_2),
-        .read_data(dmem_output)
+        .read_data(mem_output)
     );
 
     // ============================================================
@@ -423,7 +421,7 @@ module cpu (
     // ============================================================
     wire [31:0] MEM_WB_pc_plus4;
     wire [31:0] MEM_WB_alu_output;
-    wire [31:0] MEM_WB_dmem_output;
+    wire [31:0] MEM_WB_mem_output;
     wire [31:0] MEM_WB_immediate_output;
     wire [31:0] MEM_WB_instruction;
 
@@ -439,10 +437,10 @@ module cpu (
         .out(MEM_WB_alu_output)
     );
 
-    register #(.n(32)) MEM_WB_dmem_output_rg (
+    register #(.n(32)) MEM_WB_mem_output_rg (
         .clk(clk), .reset(reset), .load(1'b1),
-        .data(dmem_output),
-        .out(MEM_WB_dmem_output)
+        .data(mem_output),
+        .out(MEM_WB_mem_output)
     );
 
     register #(.n(32)) MEM_WB_immediate_output_rg (
@@ -479,7 +477,7 @@ module cpu (
     // WB stage
     // ============================================================
     assign write_data =
-        (MEM_WB_reg_write_src == 2'b00) ? MEM_WB_dmem_output :
+        (MEM_WB_reg_write_src == 2'b00) ? MEM_WB_mem_output :
         (MEM_WB_reg_write_src == 2'b01) ? MEM_WB_immediate_output :
         (MEM_WB_reg_write_src == 2'b10) ? MEM_WB_pc_plus4 :
                                           MEM_WB_alu_output;
