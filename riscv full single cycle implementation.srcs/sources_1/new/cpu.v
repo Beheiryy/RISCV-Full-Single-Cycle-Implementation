@@ -59,9 +59,15 @@ module cpu (
     wire exit_program;
     wire [1:0] alu_op;
     wire [1:0] reg_write_src;
+    
+    wire [1:0] size_addressing;
+    wire signed_ex;
 
+
+  // Control unit
     control_unit cu(
         .opcode(IF_ID_instruction[`IR_opcode]),
+        .funct3(IF_ID_instruction[`IR_funct3]),
         .exit_program(exit_program),
         .branch(branch),
         .mem_read(mem_read),
@@ -70,9 +76,12 @@ module cpu (
         .alu_src_2(alu_src_2),
         .reg_write(reg_write),
         .jump(jump),
+        .signed_ex(signed_ex),
+        .size_addressing(size_addressing),
         .alu_op(alu_op),
-        .reg_write_src(reg_write_src)
+        .reg_write_src(reg_write_src) 
     );
+
 
     immediate_generator ig(
         .instruction(IF_ID_instruction),
@@ -404,7 +413,9 @@ module cpu (
         .clk(clk),
         .mem_read(clk | EX_MEM_mem_read),
         .mem_write((~clk) & EX_MEM_mem_write),
-        .address(clk ? pc[7:2] : EX_MEM_alu_output[7:2]),
+        .signed_ex(signed_ex),
+        .size_addressing(size_addressing),
+        .address(clk ? pc[7:0] : EX_MEM_alu_output[7:0]),
         .write_data(EX_MEM_read_data_2),
         .read_data(mem_output)
     );

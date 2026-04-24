@@ -1,0 +1,19 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Mon Apr 13 10:45:58 2026
+# Process ID: 21852
+# Current directory: C:/Users/omarbeheiry/Documents/RISCV-Full-Single-Cycle-Implementation
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent29592 C:\Users\omarbeheiry\Documents\RISCV-Full-Single-Cycle-Implementation\riscv full single cycle implementation.xpr
+# Log file: C:/Users/omarbeheiry/Documents/RISCV-Full-Single-Cycle-Implementation/vivado.log
+# Journal file: C:/Users/omarbeheiry/Documents/RISCV-Full-Single-Cycle-Implementation\vivado.jou
+# Running On: CSE-P07-2168-Q2, OS: Windows, CPU Frequency: 2112 MHz, CPU Physical cores: 20, Host memory: 34031 MB
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/omarbeheiry/Documents/RISCV-Full-Single-Cycle-Implementation/riscv full single cycle implementation.xpr}
+update_compile_order -fileset sources_1
+launch_simulation
+source cpu_tb.tcl
+relaunch_sim
+close_sim

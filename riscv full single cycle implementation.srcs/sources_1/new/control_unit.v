@@ -13,6 +13,7 @@
 
 module control_unit (
     input [4:0] opcode,
+    input [2:0] funct3, //for byte,halfword,word logic
     output exit_program,
     output branch,
     output mem_read,
@@ -21,12 +22,23 @@ module control_unit (
     output alu_src_2,
     output reg_write,
     output jump,
+    output signed_ex,
+    output [1:0] size_addressing,
     output [1:0] alu_op,
     output [1:0] reg_write_src
 );
     //exit program if fence, pause, ecall, or break
     assign exit_program = (opcode == `OPCODE_FENCE || opcode == `OPCODE_BREAK);
 
+    //signed_ex signal only off for unsigned addressing
+    assign signed_ex = (funct3 != `F3_LBU && funct3 != `F3_LHU);
+    
+    //assign size_addressing according to byte, halfword, or word 
+    assign size_addressing = (funct3 == `F3_LSW) ? 2'b10 : //if word then assign to 2'b10
+                             (funct3 == `F3_LHU || funct3 == `F3_LSH) ? 2'b01 :  //if halfword then assign to 2'b01
+                             2'b00; //otherwise assign to byte (default)
+    
+    
     // branch: Active if opcode bit 4 is set
     assign branch = (opcode == `OPCODE_BRANCH);
 

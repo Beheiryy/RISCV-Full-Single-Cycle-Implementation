@@ -64,4 +64,8 @@
 `define     F3_BLTU         3'b110
 `define     F3_BGEU         3'b111
 
-
+`define     F3_LSB          3'b000 //short for load/store byte
+`define     F3_LSH          3'b001 //short for load/store halfword
+`define     F3_LSW          3'b010 //short for load/store word
+`define     F3_LBU          3'b100
+`define     F3_LHU          3'b101
