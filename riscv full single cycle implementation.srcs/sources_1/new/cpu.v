@@ -16,13 +16,6 @@ module cpu (
 
     assign pc_plus4 = pc + `PC_INCREMENT;
 
-    // Change: this is still a separate instruction memory here.
-    // If you unify memory later, this becomes a shared memory read path.
-//    instruction_memory imem(
-//        .address(pc[7:2]),
-//        .out(instruction)
-//    );
-
     // Change: PC is now stored with the reusable register module.
     register #(.n(32)) pc_reg (
         .clk(clk),

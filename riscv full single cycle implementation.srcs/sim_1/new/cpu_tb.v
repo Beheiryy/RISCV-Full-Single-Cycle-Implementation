@@ -25,7 +25,7 @@ module cpu_tb();
     cpu cpu(.clk(clk), .reset(reset));
     
     initial begin
-        clk = 0;
+        clk = 1; // Important to start with clock equal to 1
         reset = 1;
         forever #200 clk = ~clk;
     end
