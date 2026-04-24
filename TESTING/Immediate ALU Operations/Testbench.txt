@@ -1,0 +1,74 @@
+`timescale 1ns / 1ps
+
+module cpu_tb;
+    reg clk, reset;
+    cpu dut(.clk(clk), .reset(reset));
+
+    integer errors;
+
+    task check_reg;
+        input integer idx;
+        input [31:0] expected;
+        begin
+            if (dut.rf.rf[idx] !== expected) begin
+                $display("REG FAIL x%0d got=%h expected=%h", idx, dut.rf.rf[idx], expected);
+                errors = errors + 1;
+            end
+        end
+    endtask
+
+    task check_mem;
+        input integer idx;
+        input [31:0] expected;
+        begin
+            if (dut.mem.data[idx] !== expected) begin
+                $display("MEM FAIL data[%0d] got=%h expected=%h", idx, dut.mem.data[idx], expected);
+                errors = errors + 1;
+            end
+        end
+    endtask
+
+    initial begin
+        clk = 1;
+        reset = 1;
+        errors = 0;
+        forever #200 clk = ~clk;
+    end
+
+    initial begin
+        #5 reset = 0;
+    end
+
+    initial begin
+        repeat (60) @(posedge clk);
+
+        check_reg(2,  32'h00000001);
+        check_reg(3,  32'h00000000);
+        check_reg(4,  32'hFFFFF800);
+        check_reg(5,  32'hFFFFF800);
+        check_reg(6,  32'h000000F0);
+        check_reg(8,  32'h80000000);
+        check_reg(9,  32'h00000001);
+        check_reg(10, 32'hFFFFFFFF);
+        check_reg(11, 32'h000007FF);
+        check_reg(12, 32'hFFFFF800);
+
+        check_mem(32, 32'h00000001);
+        check_mem(33, 32'h00000000);
+        check_mem(34, 32'hFFFFF800);
+        check_mem(35, 32'hFFFFF800);
+        check_mem(36, 32'h000000F0);
+        check_mem(37, 32'h80000000);
+        check_mem(38, 32'h00000001);
+        check_mem(39, 32'hFFFFFFFF);
+        check_mem(40, 32'h000007FF);
+        check_mem(41, 32'hFFFFF800);
+
+        if (errors == 0) $display("PASS: Immediate ALU");
+        else $display("FAIL: Immediate ALU, errors=%0d", errors);
+
+        $finish;
+    end
+endmodule
+
+
